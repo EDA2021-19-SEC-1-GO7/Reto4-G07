@@ -37,7 +37,10 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Encontrar cantidad de clústeres y si 2 landing points están en el mismo clúster")
+    print("3- Encontrar ruta mínima en distancia entre dos países")
+    print("4- Encontrar red de expansión mínima en distancia")
+    print("5- Gráficas")
 
 catalog = None
 
