@@ -24,6 +24,8 @@ import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
+from DISClib.ADT import graph as gr
 assert cf
 
 
@@ -34,6 +36,11 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+doc_conections='connections.csv'
+doc_paises='countries.csv'
+doc_lp='landing_points.csv'
+
+
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
@@ -42,7 +49,7 @@ def printMenu():
     print("4- Encontrar red de expansión mínima en distancia")
     print("5- Gráficas")
 
-catalog = None
+analizer = None
 
 """
 Menu principal
@@ -52,7 +59,13 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-
+        analizer=controller.new_analizer()
+        controller.load(analizer,doc_conections,doc_paises,doc_lp)
+        paises=analizer["paises"]
+        print("numero de paises: "+str(mp.size(paises)))
+        print("numero de conexiones: "+str(gr.numEdges(analizer["conexiones"])))
+        print("numero de landing points: "+str(mp.size(analizer["LP"])))
+        
     elif int(inputs[0]) == 2:
         pass
 
