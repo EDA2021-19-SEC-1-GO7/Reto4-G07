@@ -60,14 +60,14 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
         analizer=controller.new_analizer()
-        controller.load(analizer, doc_connections, doc_paises, doc_lp)
+        carga=controller.load(analizer, doc_connections, doc_paises, doc_lp)
         paises=analizer["paises"]
         print("Numero de paises: "+str(mp.size(paises)))
         print("Numero de conexiones: "+str(gr.numEdges(analizer["conexiones"])))
         print("Numero de landing points: "+str(mp.size(analizer["LP"])))
-        primer_LP=lt.firstElement(mp.valueSet(analizer["LP"]))
+        primer_LP=lt.firstElement(carga[1])
+        ultimo_pais=lt.lastElement(carga[0])
         print('Información del primer landing point Identificador: {}, Nombre: {}, Latitud: {}, Longitud: {}'.format(primer_LP['landing_point_id'], primer_LP['name'], primer_LP['latitude'], primer_LP['longitude']) )
-        ultimo_pais=lt.lastElement(mp.valueSet(analizer["paises"]))
         print('Información del último_pais Población: {}, Número de usuarios de Internet: {}'.format(ultimo_pais['Population'], ultimo_pais['Internet users']))
         
     elif int(inputs[0]) == 2:

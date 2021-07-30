@@ -21,9 +21,9 @@
  """
 
 import config as cf
-import model
 import csv
 import model as m
+from DISClib.ADT import list as lt
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -46,14 +46,17 @@ def load(analizer,doc_conections,doc_paises,doc_lp):
     doc_lp = cf.data_dir + doc_lp
     input_file_lp = csv.DictReader(open(doc_lp, encoding="utf-8"),
                                 delimiter=",")
-
+    paises=lt.newList('ARRAY_LIST')
+    LP=lt.newList('ARRAY_LIST')
     for pais in input_file_paises:
         m.new_country(analizer,pais)
+        lt.addLast(paises, pais)
     for lp in input_file_lp:
         m.new_LP(analizer,lp)
+        lt.addLast(LP, lp)
     for con in input_file_conections:
         m.set_new_conection(analizer,con)
-
+    return paises, LP
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
