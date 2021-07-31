@@ -25,6 +25,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+from DISClib.DataStructures import mapentry as me
 from DISClib.ADT import graph as gr
 assert cf
 
@@ -65,14 +66,24 @@ while True:
         print("Numero de paises: "+str(mp.size(paises)))
         print("Numero de conexiones: "+str(gr.numEdges(analizer["conexiones"])))
         print("Numero de landing points: "+str(mp.size(analizer["LP"])))
-        primer_LP=lt.firstElement(carga[1])
+        primer_LP=lt.getElement(carga[1],91)#lt.firstElement(carga[1])
         ultimo_pais=lt.lastElement(carga[0])
         print('Información del primer landing point Identificador: {}, Nombre: {}, Latitud: {}, Longitud: {}'.format(primer_LP['landing_point_id'], primer_LP['name'], primer_LP['latitude'], primer_LP['longitude']) )
         print('Información del último_pais Población: {}, Número de usuarios de Internet: {}'.format(ultimo_pais['Population'], ultimo_pais['Internet users']))
         
     elif int(inputs[0]) == 2:
-        pass
-
+        nombre_1=input("Nombre del landing point 1: ")
+        nombre_2=input("Nombre del landing point 2: ")
+        lp1=me.getValue(mp.get(analizer['LP'],nombre_1))
+        lp1=lp1["landing_point_id"]
+        lp2=me.getValue(mp.get(analizer['LP'],nombre_2))
+        lp2=lp2["landing_point_id"]
+        res=controller.connected_components(analizer['conexiones'],lp1,lp2)
+        print("hay "+str(res[0])+" componentes conectados en el grafo.")
+        if res[1]:
+            print("Los landing points ingresados estan en el mismo componente.")
+        else:
+            print("Los landing points ingresados no estan en el mismo componente.")
     else:
         sys.exit(0)
 sys.exit(0)

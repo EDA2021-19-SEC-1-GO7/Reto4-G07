@@ -31,6 +31,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Graphs import scc as s
 from DISClib.Utils import error as error
 assert cf
 
@@ -57,7 +58,7 @@ def new_analyer():
                                      )
 
         analyzer['conexiones'] = gr.newGraph(datastructure='ADJ_LIST',
-                                              directed=False,
+                                              directed=True,
                                               size=4000
                                               )
         return analyzer
@@ -66,7 +67,7 @@ def new_analyer():
 # Funciones para agregar informacion al catalogo
 
 def new_LP(analyzer,lp):
-    key_lp=lp['landing_point_id']
+    key_lp=lp['name']
     mp.put(analyzer['LP'],key_lp,lp)
 
 def new_country(analyzer,count):
@@ -86,6 +87,11 @@ def set_new_conection(analyzer,new_conection):
 # Funciones para creacion de datos
 
 # Funciones de consulta
+def connected_components(graph,lp1,lp2):
+    scc=s.KosarajuSCC(graph)
+    n=s.connectedComponents(scc)
+    lps_sc=s.stronglyConnected(scc,lp1,lp2)
+    return n,lps_sc
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 

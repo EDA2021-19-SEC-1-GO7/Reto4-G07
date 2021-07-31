@@ -47,16 +47,18 @@ def load(analizer,doc_conections,doc_paises,doc_lp):
     input_file_lp = csv.DictReader(open(doc_lp, encoding="utf-8"),
                                 delimiter=",")
     paises=lt.newList('ARRAY_LIST')
-    LP=lt.newList('ARRAY_LIST')
+    d=lt.newList('ARRAY_LIST')
     for pais in input_file_paises:
         m.new_country(analizer,pais)
         lt.addLast(paises, pais)
     for lp in input_file_lp:
         m.new_LP(analizer,lp)
-        lt.addLast(LP, lp)
+        lt.addLast(d, lp)
     for con in input_file_conections:
         m.set_new_conection(analizer,con)
-    return paises, LP
+    return paises, d
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+def connected_components(graph,lp1,lp2):
+    return m.connected_components(graph,lp1,lp2)
