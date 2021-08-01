@@ -95,13 +95,12 @@ while True:
         
         print('Distancia total de la ruta: '+str(round(djk.distTo(min_path,vertice_entrada),2))+' km')
         path=djk.pathTo(min_path,vertice_entrada)
-        n=0
+        
         while not(stack.isEmpty(path)):
             segmento=stack.pop(path)
             verA=segmento["vertexA"]
             verB=segmento["vertexB"]
             wg=float(segmento["weight"])
-            n+=wg
             print(me.getValue(mp.get(analizer['LP_id'],verA))+"---"+str(round(wg,2))+" km--->"+me.getValue(mp.get(analizer['LP_id'],verB)))
     else:
         sys.exit(0)
