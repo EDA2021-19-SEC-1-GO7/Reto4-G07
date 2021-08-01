@@ -69,3 +69,6 @@ def connected_components(graph,lp1,lp2):
 
 def ruta_minima(graph,vert_origen):
     return  m.ruta_minima(graph,vert_origen)
+
+def red_expansion_minima(graph):
+    return m.red_expansion_minima(graph)

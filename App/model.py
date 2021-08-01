@@ -36,6 +36,7 @@ from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Graphs import scc as s
 from DISClib.Algorithms.Graphs import dijsktra as djk
+from DISClib.Algorithms.Graphs import prim
 from DISClib.Utils import error as error
 assert cf
 
@@ -153,6 +154,9 @@ def connected_components(graph,lp1,lp2):
 
 def ruta_minima(graph,vert_origen):
     return djk.Dijkstra(graph,vert_origen)
+
+def red_expansion_minima(graph):
+    return prim.PrimMST(graph)
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def haversine(lon1, lat1, lon2, lat2):
