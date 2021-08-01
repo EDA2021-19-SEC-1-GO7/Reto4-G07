@@ -66,7 +66,7 @@ while True:
         print("Numero de paises: "+str(mp.size(paises)))
         print("Numero de conexiones: "+str(gr.numEdges(analizer["conexiones"])))
         print("Numero de landing points: "+str(mp.size(analizer["LP"])))
-        primer_LP=lt.getElement(carga[1],91)#lt.firstElement(carga[1])
+        primer_LP=lt.firstElement(carga[1])
         ultimo_pais=lt.lastElement(carga[0])
         print('Información del primer landing point Identificador: {}, Nombre: {}, Latitud: {}, Longitud: {}'.format(primer_LP['landing_point_id'], primer_LP['name'], primer_LP['latitude'], primer_LP['longitude']) )
         print('Información del último_pais Población: {}, Número de usuarios de Internet: {}'.format(ultimo_pais['Population'], ultimo_pais['Internet users']))
@@ -84,6 +84,12 @@ while True:
             print("Los landing points ingresados estan en el mismo componente.")
         else:
             print("Los landing points ingresados no estan en el mismo componente.")
+    elif int(inputs[0]) == 3:
+        ciudad_salida=input("Capital de salida: ")#ej:Bogota, Colombia
+        vertice_salida=me.getValue(mp.get(analizer['LP'],ciudad_salida))['landing_point_id']
+        min_path=controller.ruta_minima(analizer['conexiones'],vertice_salida)
+        print(min_path)
+        print(gr.vertices(min_path))#Estoy trabajando en esto.
     else:
         sys.exit(0)
 sys.exit(0)

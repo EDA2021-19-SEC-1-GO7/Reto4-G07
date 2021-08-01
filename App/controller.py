@@ -48,17 +48,24 @@ def load(analizer,doc_conections,doc_paises,doc_lp):
                                 delimiter=",")
     paises=lt.newList('ARRAY_LIST')
     d=lt.newList('ARRAY_LIST')
-    for pais in input_file_paises:
-        m.new_country(analizer,pais)
-        lt.addLast(paises, pais)
+    
     for lp in input_file_lp:
         m.new_LP(analizer,lp)
         lt.addLast(d, lp)
     for con in input_file_conections:
         m.set_new_conection(analizer,con)
+    
+    valid_id=lt.newList()#Lista para registrar las IDs creadas para capitales que originalmente no estan.
+    for pais in input_file_paises:
+        m.new_country(analizer,pais,valid_id)
+        lt.addLast(paises, pais)
+
     return paises, d
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
 def connected_components(graph,lp1,lp2):
     return m.connected_components(graph,lp1,lp2)
+
+def ruta_minima(graph,vert_origen):
+    return  m.ruta_minima(graph,vert_origen)
