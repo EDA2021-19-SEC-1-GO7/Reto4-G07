@@ -90,6 +90,18 @@ while True:
         min_path=controller.ruta_minima(analizer['conexiones'],vertice_salida)
         print(min_path)
         print(gr.vertices(min_path))#Estoy trabajando en esto.
+    elif int(inputs[0]) == 4:
+        red=controller.red_expansion_minima(analizer['conexiones'])
+        distancia=0
+        costos=mp.valueSet(red['distTo'])
+        for costo in lt.iterator(costos):
+            if costo!=None:
+                distancia+=costo
+        print('Hay {} nodos conectados a las red de expansión mínima'.format(mp.size(red['marked'])))
+        print('El costo de la red de expansión mínima es de {:.3f} km'.format(distancia))
+        print(red)
+
+
     else:
         sys.exit(0)
 sys.exit(0)
