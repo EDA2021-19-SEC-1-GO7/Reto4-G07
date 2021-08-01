@@ -26,6 +26,8 @@ import controller
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
+from DISClib.Algorithms.Graphs import dijsktra as djk
+from DISClib.ADT import stack
 from DISClib.ADT import graph as gr
 assert cf
 
@@ -86,10 +88,21 @@ while True:
             print("Los landing points ingresados no estan en el mismo componente.")
     elif int(inputs[0]) == 3:
         ciudad_salida=input("Capital de salida: ")#ej:Bogota, Colombia
+        ciudad_entrada=input("Capital de entrada: ")
         vertice_salida=me.getValue(mp.get(analizer['LP'],ciudad_salida))['landing_point_id']
+        vertice_entrada=me.getValue(mp.get(analizer['LP'],ciudad_entrada))['landing_point_id']
         min_path=controller.ruta_minima(analizer['conexiones'],vertice_salida)
-        print(min_path)
-        print(gr.vertices(min_path))#Estoy trabajando en esto.
+        
+        print('Distancia total de la ruta: '+str(round(djk.distTo(min_path,vertice_entrada),2))+' km')
+        path=djk.pathTo(min_path,vertice_entrada)
+        n=0
+        while not(stack.isEmpty(path)):
+            segmento=stack.pop(path)
+            verA=segmento["vertexA"]
+            verB=segmento["vertexB"]
+            wg=float(segmento["weight"])
+            n+=wg
+            print(me.getValue(mp.get(analizer['LP_id'],verA))+"---"+str(round(wg,2))+" km--->"+me.getValue(mp.get(analizer['LP_id'],verB)))
     else:
         sys.exit(0)
 sys.exit(0)
