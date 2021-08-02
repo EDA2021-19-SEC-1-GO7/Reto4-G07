@@ -50,7 +50,6 @@ def printMenu():
     print("2- Encontrar cantidad de clústeres y si 2 landing points están en el mismo clúster")
     print("3- Encontrar ruta mínima en distancia entre dos países")
     print("4- Encontrar red de expansión mínima en distancia")
-    print("5- Gráficas")
 
 analizer = None
 
