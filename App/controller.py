@@ -24,6 +24,8 @@ import config as cf
 import csv
 import model as m
 from DISClib.ADT import list as lt
+import time
+import tracemalloc
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -37,6 +39,12 @@ def new_analizer():
 
 def load(analizer,doc_conections,doc_paises,doc_lp):
     
+    delta_time = -1.0
+    delta_memory = -1.0
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
     doc_paises = cf.data_dir + doc_paises
     input_file_paises = csv.DictReader(open(doc_paises, encoding="utf-8"),
                                 delimiter=",")
@@ -60,18 +68,122 @@ def load(analizer,doc_conections,doc_paises,doc_lp):
         m.new_country(analizer,pais,valid_id)
         lt.addLast(paises, pais)
 
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    print("Tiempo [ms]: ", f"{delta_time:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{delta_memory:.3f}")
+
     return paises, d
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
 def connected_components(graph,lp1,lp2):
-    return m.connected_components(graph,lp1,lp2)
+    delta_time = -1.0
+    delta_memory = -1.0
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    
+    res= m.connected_components(graph,lp1,lp2)
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    print("Tiempo [ms]: ", f"{delta_time:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{delta_memory:.3f}")
+
+    return res
 
 def ruta_minima(graph,vert_origen):
-    return  m.ruta_minima(graph,vert_origen)
+
+    delta_time = -1.0
+    delta_memory = -1.0
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
+    res=m.ruta_minima(graph,vert_origen)
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    print("Tiempo [ms]: ", f"{delta_time:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{delta_memory:.3f}")
+    return res
 
 def red_expansion_minima(graph):
-    return m.red_expansion_minima(graph)
+    delta_time = -1.0
+    delta_memory = -1.0
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
+    res=m.red_expansion_minima(graph)
     
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    print('Red de expansion minima:',"Tiempo [ms]: ", f"{delta_time:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{delta_memory:.3f}")
+    return res
+
 def rama_mas_larga(graph):
-    return m.rama_mas_larga(graph)
+
+    delta_time = -1.0
+    delta_memory = -1.0
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
+    res=m.rama_mas_larga(graph)
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    print('Rama más larga:',"Tiempo [ms]: ", f"{delta_time:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{delta_memory:.3f}")
+    return res
+#Funciones de toma de datos:
+def getTime():
+    """
+    devuelve el instante tiempo de procesamiento en milisegundos
+    """
+    return float(time.perf_counter()*1000)
+
+
+def getMemory():
+    """
+    toma una muestra de la memoria alocada en instante de tiempo
+    """
+    return tracemalloc.take_snapshot()
+
+
+def deltaMemory(start_memory, stop_memory):
+    """
+    calcula la diferencia en memoria alocada del programa entre dos
+    instantes de tiempo y devuelve el resultado en bytes (ej.: 2100.0 B)
+    """
+    memory_diff = stop_memory.compare_to(start_memory, "filename")
+    delta_memory = 0.0
+
+    # suma de las diferencias en uso de memoria
+    for stat in memory_diff:
+        delta_memory = delta_memory + stat.size_diff
+    # de Byte -> kByte
+    delta_memory = delta_memory/1024.0
+    return delta_memory
