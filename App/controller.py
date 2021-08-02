@@ -72,3 +72,6 @@ def ruta_minima(graph,vert_origen):
 
 def red_expansion_minima(graph):
     return m.red_expansion_minima(graph)
+    
+def rama_mas_larga(graph):
+    return m.rama_mas_larga(graph)

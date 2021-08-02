@@ -158,6 +158,40 @@ def ruta_minima(graph,vert_origen):
 def red_expansion_minima(graph):
     return prim.PrimMST(graph)
 
+def rama_mas_larga(graph):
+    red=red_expansion_minima(graph['conexiones'])
+    vertices_A=lt.newList('ARRAY_LIST')
+    vertices_B=lt.newList('ARRAY_LIST')
+    for arco in lt.iterator(red['edgeTo']['table']):
+        if arco['key']!=None:
+            lt.addLast(vertices_A, arco['value']['vertexA'])
+            lt.addLast(vertices_B, arco['value']['vertexB'])
+
+    mayor_rama=0
+    rama_def=None
+    i=1
+    while i<=lt.size(red['edgeTo']['table']):
+        arco=lt.getElement(red['edgeTo']['table'], i)
+        rama=[]
+        long=0
+        if arco['key']!=None:
+            vertice_a=arco['value']['vertexA']
+            vertice_b=arco['value']['vertexB']
+
+            while lt.isPresent(vertices_A, vertice_b)!=0:
+                long+=1
+                vertice_a=vertice_b
+                vertice_b=lt.getElement(vertices_B, lt.isPresent(vertices_A, vertice_b))
+                LP_a=me.getValue(mp.get(graph['LP_id'], vertice_a))
+                LP_b=me.getValue(mp.get(graph['LP_id'], vertice_b))
+                rama.append((LP_a, LP_b))
+                            
+        if long>mayor_rama:
+            mayor_rama=long
+            rama_def=rama
+        i+=1
+    return rama_def
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 def haversine(lon1, lat1, lon2, lat2):
     """

@@ -102,9 +102,10 @@ while True:
             verB=segmento["vertexB"]
             wg=float(segmento["weight"])
             print(me.getValue(mp.get(analizer['LP_id'],verA))+"---"+str(round(wg,2))+" km--->"+me.getValue(mp.get(analizer['LP_id'],verB)))
-            
+
     elif int(inputs[0]) == 4:
         red=controller.red_expansion_minima(analizer['conexiones'])
+        rama=controller.rama_mas_larga(analizer)
         distancia=0
         costos=mp.valueSet(red['distTo'])
         for costo in lt.iterator(costos):
@@ -112,6 +113,12 @@ while True:
                 distancia+=costo
         print('Hay {} nodos conectados a las red de expansión mínima'.format(mp.size(red['marked'])))
         print('El costo de la red de expansión mínima es de {:.3f} km'.format(distancia))
+        print('La rama más larga, con {} arcos es'.format(len(rama)))
+        i=0
+        while i<len(rama):
+            print(rama[i])
+            i+=1
+
     else:
         sys.exit(0)
 sys.exit(0)
